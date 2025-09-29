@@ -6,26 +6,19 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
-  },
-  "prettier": {
-    "printWidth": 100,
-    "singleQuote": true,
-    "overrides": [
-      {
-        "files": "*.html",
-        "options": {
-          "parser": "angular"
-        }
-      }
-    ]
+    "test": "ng test --watch=false --browsers=ChromeHeadless",
+    "lint": "ng lint",
+    "format": "prettier --write .",
+    "prepare": "husky"
   },
   "private": true,
   "dependencies": {
+    "@angular/cdk": "^20.2.5",
     "@angular/common": "^20.3.0",
     "@angular/compiler": "^20.3.0",
     "@angular/core": "^20.3.0",
     "@angular/forms": "^20.3.0",
+    "@angular/material": "^20.2.5",
     "@angular/platform-browser": "^20.3.0",
     "@angular/router": "^20.3.0",
     "rxjs": "~7.8.0",
@@ -33,16 +26,33 @@
     "zone.js": "~0.15.0"
   },
   "devDependencies": {
+    "@angular-eslint/builder": "20.3.0",
     "@angular/build": "^20.3.3",
     "@angular/cli": "^20.3.3",
     "@angular/compiler-cli": "^20.3.0",
+    "@commitlint/cli": "^20.0.0",
+    "@commitlint/config-conventional": "^20.0.0",
+    "@eslint/js": "^9.35.0",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/commit-analyzer": "^10.0.4",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^11.0.1",
+    "@semantic-release/release-notes-generator": "^11.0.7",
     "@types/jasmine": "~5.1.0",
+    "angular-eslint": "20.3.0",
+    "eslint": "^9.35.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.4",
+    "husky": "^9.1.7",
     "jasmine-core": "~5.9.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
-    "typescript": "~5.9.2"
+    "prettier": "^3.6.2",
+    "semantic-release": "^24.2.0",
+    "typescript": "~5.9.2",
+    "typescript-eslint": "8.40.0"
   }
 }
