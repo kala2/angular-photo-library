@@ -9,8 +9,7 @@ import {
   Component,
   inject,
   input,
-  output,
-  ViewChild
+  output
 } from '@angular/core'
 import { ImageItem } from '@features/photo/interfaces/image.interface'
 import { LocalStorageService } from '@app/shared/services/local-storage.service'
@@ -31,8 +30,6 @@ import { LoadingComponent } from '@app/shared/components/loading/loading.compone
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PhotoListComponent {
-  @ViewChild('viewport', { static: true }) viewport!: CdkVirtualScrollViewport
-
   localStorageService = inject(LocalStorageService)
 
   readonly hasLoading = input<boolean, boolean | string>(false, {
