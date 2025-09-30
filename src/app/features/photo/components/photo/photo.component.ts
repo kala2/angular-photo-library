@@ -12,12 +12,16 @@ import { MatIconButton } from '@angular/material/button'
 import { MatIcon } from '@angular/material/icon'
 import { LocalStorageService } from '@app/shared/services/local-storage.service'
 import { appendOrDelete } from '@app/shared/utils/utils'
+import { RouterLink } from '@angular/router'
 
 @Component({
   selector: 'app-photo',
-  imports: [NgOptimizedImage, MatIconButton, MatIcon],
+  imports: [NgOptimizedImage, MatIconButton, MatIcon, RouterLink],
   template: `
-    <div class="image-container">
+    <div
+      class="image-container"
+      [routerLink]="['/photo']"
+      [queryParams]="{ url: image().url, id: image().id }">
       <img
         [ngSrc]="image().url"
         [alt]="'Image ' + image().id"
@@ -28,7 +32,7 @@ import { appendOrDelete } from '@app/shared/utils/utils'
         <span class="image-id">#{{ image().id }}</span>
         <button matIconButton (click)="onFavoriteClick(image())" class="image-favorite">
           <mat-icon
-            >{{ favoritesSelected().includes(image().url) ? 'favorite' : 'favorite_border' }}
+            >{{ favoritesSelected().includes(image().id) ? 'favorite' : 'favorite_border' }}
           </mat-icon>
         </button>
       </div>
@@ -101,9 +105,11 @@ export class PhotoComponent {
 
   favorites: WritableSignal<ImageItem[]> = this.localStorageService.signal('favorites')
 
-  favoritesSelected = computed(() => (this.favorites() || []).map(({ url }) => url))
+  favoritesSelected = computed(() => (this.favorites() || []).map(({ id }) => id))
 
   onFavoriteClick(item: ImageItem) {
+    event?.stopPropagation()
+
     const favorites = appendOrDelete(this.favorites() || [], item, ({ id }) => id === item.id)
 
     this.localStorageService.set('favorites', favorites)
