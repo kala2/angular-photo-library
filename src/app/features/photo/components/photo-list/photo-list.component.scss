@@ -1,0 +1,35 @@
+.container {
+  margin: 0 auto;
+}
+
+.viewport {
+  height: calc(100vh - 110px);
+  border-radius: 8px;
+  overflow-y: auto;
+}
+
+.image-row {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  justify-content: center;
+  min-height: 240px;
+}
+
+.viewport::-webkit-scrollbar {
+  width: 8px;
+}
+
+.viewport::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.viewport::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+.viewport::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}

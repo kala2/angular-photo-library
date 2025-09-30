@@ -1,12 +1,10 @@
-import { Component, signal } from '@angular/core'
+import { Component } from '@angular/core'
 import { RouterOutlet } from '@angular/router'
+import { NavigationComponent } from '@core/components/navigation/navigation.component'
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
-  templateUrl: './app.html',
-  styleUrl: './app.scss'
+  imports: [RouterOutlet, NavigationComponent],
+  template: `<app-navigation></app-navigation> <router-outlet></router-outlet>`
 })
-export class App {
-  protected readonly title = signal('angular-photo-library')
-}
+export class App {}

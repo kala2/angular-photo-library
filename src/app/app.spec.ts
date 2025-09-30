@@ -1,23 +1,41 @@
-import { TestBed } from '@angular/core/testing'
+import { ComponentFixture, TestBed } from '@angular/core/testing'
 import { App } from './app'
+import { NavigationComponent } from '@core/components/navigation/navigation.component'
+import { provideRouter, RouterOutlet } from '@angular/router'
+import { LocalStorageService } from '@shared/services/local-storage.service'
 
-describe('App', () => {
+describe('AppComponent', () => {
+  let component: App
+  let fixture: ComponentFixture<App>
+  let localStorageService: LocalStorageService
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [App]
+      imports: [App, RouterOutlet, NavigationComponent],
+      providers: [provideRouter([]), LocalStorageService]
     }).compileComponents()
+
+    fixture = TestBed.createComponent(App)
+
+    localStorageService = TestBed.inject(LocalStorageService)
+
+    localStorageService.set('favorites', [])
+
+    component = fixture.componentInstance
+    fixture.detectChanges()
   })
 
   it('should create the app', () => {
-    const fixture = TestBed.createComponent(App)
-    const app = fixture.componentInstance
-    expect(app).toBeTruthy()
+    expect(component).toBeTruthy()
   })
 
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(App)
-    fixture.detectChanges()
-    const compiled = fixture.nativeElement as HTMLElement
-    expect(compiled.querySelector('h1')?.textContent).toContain('Hello, angular-photo-library')
+  it('should have app-navigation component', () => {
+    const navigationElement = fixture.nativeElement.querySelector('app-navigation')
+    expect(navigationElement).toBeTruthy()
+  })
+
+  it('should have router-outlet component', () => {
+    const routerOutletElement = fixture.nativeElement.querySelector('router-outlet')
+    expect(routerOutletElement).toBeTruthy()
   })
 })

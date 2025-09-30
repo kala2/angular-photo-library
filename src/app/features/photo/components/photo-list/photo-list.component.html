@@ -1,0 +1,17 @@
+<div class="container">
+  <cdk-virtual-scroll-viewport
+    #viewport
+    itemSize="240"
+    class="viewport"
+    (scrolledIndexChange)="onScrolledIndexChange($event)">
+    <div *cdkVirtualFor="let row of imageRows(); trackBy: trackByRowIndex" class="image-row">
+      @for (image of row; track image.id) {
+        <app-photo [image]="image"></app-photo>
+      }
+    </div>
+
+    @if (isLoading()) {
+      <app-loading></app-loading>
+    }
+  </cdk-virtual-scroll-viewport>
+</div>
