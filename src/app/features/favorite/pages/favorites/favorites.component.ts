@@ -1,4 +1,4 @@
-import { Component, computed, inject, WritableSignal } from '@angular/core'
+import { Component, computed, inject } from '@angular/core'
 import { ImageItem } from '@app/features/photo/interfaces/image.interface'
 import { PhotoListComponent } from '@shared/components/photo-list/photo-list.component'
 import { LocalStorageService } from '@shared/services/local-storage.service'
@@ -11,14 +11,19 @@ import { LocalStorageService } from '@shared/services/local-storage.service'
 export class FavoritesComponent {
   localStorageService = inject(LocalStorageService)
 
-  favorites: WritableSignal<ImageItem[]> = this.localStorageService.signal('favorites')
+  favorites = this.localStorageService.signal<number[]>('favorites')
 
-  readonly imageRows = computed(() => {
-    const images = this.favorites() || []
+  images = computed(() =>
+    (this.favorites() || []).map((id) => ({
+      id,
+      url: `https://picsum.photos/id/${id}/300/300`
+    }))
+  )
 
-    return images.reduce<ImageItem[][]>((acc, _, i) => {
-      if (i % 5 === 0) acc.push(images.slice(i, i + 5))
+  readonly imageRows = computed(() =>
+    this.images().reduce<ImageItem[][]>((acc, _, i) => {
+      if (i % 5 === 0) acc.push(this.images().slice(i, i + 5))
       return acc
     }, [])
-  })
+  )
 }

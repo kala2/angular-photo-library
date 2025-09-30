@@ -18,7 +18,7 @@ import { MatBadge } from '@angular/material/badge'
       <a
         mat-button
         matBadgeSize="large"
-        matBadge="{{ favorites()?.length > 0 ? favorites().length : '' }}"
+        matBadge="{{ favorites().length > 0 ? favorites().length : '' }}"
         routerLink="/favorites"
         routerLinkActive="active-link"
         class="nav-link">
@@ -60,5 +60,5 @@ import { MatBadge } from '@angular/material/badge'
 export class NavigationComponent {
   localStorageService = inject(LocalStorageService)
 
-  favorites = this.localStorageService.signal('favorites')
+  favorites = this.localStorageService.signal<number[]>('favorites')
 }

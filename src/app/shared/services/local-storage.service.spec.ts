@@ -37,7 +37,7 @@ describe('LocalStorageService', () => {
 
   describe('set', () => {
     it('should store value and update signal if present', () => {
-      const sig = service.signal('bar', null)
+      const sig = service.signal<{ b: number } | null>('bar', null)
       service.set('bar', { b: 2 })
 
       expect(JSON.parse(localStorage.getItem('bar')!)).toEqual({ b: 2 })

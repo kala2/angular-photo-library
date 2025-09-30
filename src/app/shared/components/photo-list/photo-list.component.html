@@ -6,7 +6,7 @@
     (scrolledIndexChange)="onScrolledIndexChange($event)">
     <div *cdkVirtualFor="let row of imageRows(); trackBy: trackByRowIndex" class="image-row">
       @for (image of row; track image.id) {
-        <app-photo [image]="image"></app-photo>
+        <app-photo-card [id]="image.id"></app-photo-card>
       }
     </div>
 

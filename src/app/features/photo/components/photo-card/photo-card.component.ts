@@ -1,13 +1,5 @@
 import { NgOptimizedImage } from '@angular/common'
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-  input,
-  WritableSignal
-} from '@angular/core'
-import { ImageItem } from '@features/photo/interfaces/image.interface'
+import { ChangeDetectionStrategy, Component, inject, input } from '@angular/core'
 import { MatIconButton } from '@angular/material/button'
 import { MatIcon } from '@angular/material/icon'
 import { LocalStorageService } from '@app/shared/services/local-storage.service'
@@ -15,25 +7,20 @@ import { appendOrDelete } from '@app/shared/utils/utils'
 import { RouterLink } from '@angular/router'
 
 @Component({
-  selector: 'app-photo',
+  selector: 'app-photo-card',
   imports: [NgOptimizedImage, MatIconButton, MatIcon, RouterLink],
   template: `
-    <div
-      class="image-container"
-      [routerLink]="['/photo']"
-      [queryParams]="{ url: image().url, id: image().id }">
+    <div class="image-container" routerLink="/photos/{{ id() }}">
       <img
-        [ngSrc]="image().url"
-        [alt]="'Image ' + image().id"
+        ngSrc="https://picsum.photos/id/{{ id() }}/300/300"
+        alt="Image {{ id() }}"
         width="300"
         height="300"
-        [priority]="image().id <= 10" />
+        [priority]="id() <= 9" />
       <div class="image-overlay">
-        <span class="image-id">#{{ image().id }}</span>
-        <button matIconButton (click)="onFavoriteClick(image())" class="image-favorite">
-          <mat-icon
-            >{{ favoritesSelected().includes(image().id) ? 'favorite' : 'favorite_border' }}
-          </mat-icon>
+        <span class="image-id">#{{ id() }}</span>
+        <button matIconButton (click)="onFavoriteClick()" class="image-favorite">
+          <mat-icon>{{ favorites().includes(id()) ? 'favorite' : 'favorite_border' }} </mat-icon>
         </button>
       </div>
     </div>
@@ -98,19 +85,17 @@ import { RouterLink } from '@angular/router'
   `,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PhotoComponent {
-  image = input.required<ImageItem>()
+export class PhotoCardComponent {
+  id = input.required<number>()
 
   localStorageService = inject(LocalStorageService)
 
-  favorites: WritableSignal<ImageItem[]> = this.localStorageService.signal('favorites')
+  favorites = this.localStorageService.signal<number[]>('favorites')
 
-  favoritesSelected = computed(() => (this.favorites() || []).map(({ id }) => id))
-
-  onFavoriteClick(item: ImageItem) {
+  onFavoriteClick() {
     event?.stopPropagation()
 
-    const favorites = appendOrDelete(this.favorites() || [], item, ({ id }) => id === item.id)
+    const favorites = appendOrDelete(this.favorites() || [], this.id())
 
     this.localStorageService.set('favorites', favorites)
   }

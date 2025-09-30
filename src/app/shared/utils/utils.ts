@@ -1,12 +1,8 @@
-export const appendOrDelete = <T>(
-  array: T[],
-  item: T,
-  conditionFn: (existingItem: T) => boolean
-): T[] => {
-  const shouldAppend = !array.some(conditionFn)
+export const appendOrDelete = (array: number[], item: number): number[] => {
+  const shouldAppend = !array.includes(item)
   if (shouldAppend) {
     return [...array, item]
   } else {
-    return array.filter((existingItem) => !conditionFn(existingItem))
+    return array.filter((existingItem) => existingItem !== item)
   }
 }

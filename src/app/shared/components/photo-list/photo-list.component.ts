@@ -14,7 +14,7 @@ import {
 } from '@angular/core'
 import { ImageItem } from '@features/photo/interfaces/image.interface'
 import { LocalStorageService } from '@app/shared/services/local-storage.service'
-import { PhotoComponent } from '@features/photo/components/photo/photo.component'
+import { PhotoCardComponent } from '@app/features/photo/components/photo-card/photo-card.component'
 import { LoadingComponent } from '@app/shared/components/loading/loading.component'
 
 @Component({
@@ -24,7 +24,7 @@ import { LoadingComponent } from '@app/shared/components/loading/loading.compone
     CdkVirtualForOf,
     CdkFixedSizeVirtualScroll,
     LoadingComponent,
-    PhotoComponent
+    PhotoCardComponent
   ],
   templateUrl: './photo-list.component.html',
   styleUrl: './photo-list.component.scss',
@@ -44,8 +44,6 @@ export class PhotoListComponent {
   isLoading = input(false)
 
   reachedEndChange = output()
-
-  favorites = this.localStorageService.signal('favorites')
 
   onScrolledIndexChange(index: number) {
     const totalRows = this.imageRows().length

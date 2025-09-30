@@ -3,7 +3,7 @@ import { PhotoListComponent } from '@shared/components/photo-list/photo-list.com
 import { LocalStorageService } from '@app/shared/services/local-storage.service'
 
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling'
-import { PhotoComponent } from '@features/photo/components/photo/photo.component'
+import { PhotoCardComponent } from '@app/features/photo/components/photo-card/photo-card.component'
 import { LoadingComponent } from '@app/shared/components/loading/loading.component'
 import { ImageItem } from '@app/features/photo/interfaces/image.interface'
 
@@ -13,7 +13,7 @@ describe('PhotoListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PhotoListComponent, PhotoComponent, LoadingComponent, CdkVirtualScrollViewport],
+      imports: [PhotoListComponent, PhotoCardComponent, LoadingComponent, CdkVirtualScrollViewport],
       providers: [LocalStorageService]
     }).compileComponents()
 

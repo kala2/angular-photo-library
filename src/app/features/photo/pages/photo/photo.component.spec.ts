@@ -8,10 +8,7 @@ describe('PhotoComponent', () => {
   let fixture: ComponentFixture<PhotoComponent>
   let localStorageService: LocalStorageService
 
-  const queryParams = new Map([
-    ['id', '1'],
-    ['url', 'https://example.com/image-300.jpg']
-  ])
+  const paramMap = new Map([['id', '1']])
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -23,8 +20,8 @@ describe('PhotoComponent', () => {
           provide: ActivatedRoute,
           useValue: {
             snapshot: {
-              queryParamMap: {
-                get: (key: string) => queryParams.get(key)
+              paramMap: {
+                get: (key: string) => paramMap.get(key)
               }
             }
           }
@@ -39,37 +36,31 @@ describe('PhotoComponent', () => {
 
     localStorageService = TestBed.inject(LocalStorageService)
 
+    localStorageService.set('favorites', [])
+
     spyOn(localStorageService, 'set').and.callThrough()
 
     fixture.detectChanges()
   })
 
-  it('should initialize id and url from query params', () => {
+  it('should initialize id from params', () => {
     expect(component.id).toBe(1)
-    expect(component.url).toBe('https://example.com/image-600.jpg')
   })
 
   it('should add item to favorites if not already present', () => {
-    localStorageService.set('favorites', [])
-
     expect(component.favorites().length).toBe(0)
 
     component.toggleFavorite()
 
     expect(component.favorites().length).toBe(1)
-    expect(component.favorites()[0]).toEqual({
-      id: 1,
-      url: 'https://example.com/image-600.jpg'
-    })
-    expect(localStorageService.get('favorites')).toEqual([
-      { id: 1, url: 'https://example.com/image-600.jpg' }
-    ])
+    expect(component.favorites()[0]).toEqual(1)
+    expect(localStorageService.get('favorites')).toEqual([1])
   })
 
   it('should remove item from favorites if already present', () => {
-    localStorageService.set('favorites', [{ id: 1, url: 'https://example.com/image-300.jpg' }])
+    localStorageService.set('favorites', [1])
 
-    component.favorites.set([{ id: 1, url: 'https://example.com/image-300.jpg' }])
+    component.favorites.set([1])
 
     expect(component.favorites().length).toBe(1)
 

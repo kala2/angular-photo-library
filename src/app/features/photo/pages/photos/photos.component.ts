@@ -48,8 +48,8 @@ export class PhotosComponent {
   private fetchPage(page: number) {
     return of(
       Array.from({ length: this.pageSize }, (_, i) => ({
-        id: page * this.pageSize + i + 1,
-        url: `https://picsum.photos/300/300?random=${page * this.pageSize + i + 1}`
+        id: page * this.pageSize + i,
+        url: `https://picsum.photos/id/${page * this.pageSize + i}/300/300`
       }))
     ).pipe(delay(700))
   }

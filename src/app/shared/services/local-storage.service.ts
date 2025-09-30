@@ -34,7 +34,7 @@ export class LocalStorageService {
     this.signals.forEach((sig) => sig.set(null))
   }
 
-  signal<T>(key: string, initial?: T) {
+  signal<T>(key: string, initial?: T): WritableSignal<T> {
     if (!this.signals.has(key)) {
       const initValue = this.get<T>(key) ?? initial ?? null
       const sig = signal<T | null>(initValue)

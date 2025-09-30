@@ -1,27 +1,21 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing'
 import { LocalStorageService } from '@app/shared/services/local-storage.service'
-import { PhotoComponent } from './photo.component'
+import { PhotoCardComponent } from './photo-card.component'
 import { provideRouter } from '@angular/router'
-import { ImageItem } from '@features/photo/interfaces/image.interface'
 import { By } from '@angular/platform-browser'
 
-describe('PhotoComponent', () => {
-  let component: PhotoComponent
-  let fixture: ComponentFixture<PhotoComponent>
+describe('PhotoCardComponent', () => {
+  let component: PhotoCardComponent
+  let fixture: ComponentFixture<PhotoCardComponent>
   let localStorageService: LocalStorageService
-
-  const testImage: ImageItem = {
-    id: 1,
-    url: 'http://example.com/test.jpg'
-  }
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PhotoComponent],
+      imports: [PhotoCardComponent],
       providers: [provideRouter([]), LocalStorageService]
     }).compileComponents()
 
-    fixture = TestBed.createComponent(PhotoComponent)
+    fixture = TestBed.createComponent(PhotoCardComponent)
 
     localStorageService = TestBed.inject(LocalStorageService)
 
@@ -31,7 +25,7 @@ describe('PhotoComponent', () => {
 
     component = fixture.componentInstance
 
-    fixture.componentRef.setInput('image', testImage)
+    fixture.componentRef.setInput('id', 1)
 
     fixture.detectChanges()
   })
@@ -42,7 +36,7 @@ describe('PhotoComponent', () => {
 
   it('should render image with correct src and alt', () => {
     const img: HTMLImageElement = fixture.debugElement.query(By.css('img')).nativeElement
-    expect(img.getAttribute('src')).toBe(testImage.url)
+    expect(img.getAttribute('src')).toBe('https://picsum.photos/id/1/300/300')
     expect(img.alt).toBe('Image 1')
   })
 
@@ -57,7 +51,7 @@ describe('PhotoComponent', () => {
   })
 
   it('should show favorite icon when image url is in favorites', () => {
-    localStorageService.set('favorites', [testImage])
+    localStorageService.set('favorites', [1])
     fixture.detectChanges()
 
     const icon = fixture.debugElement.query(By.css('mat-icon')).nativeElement
@@ -68,18 +62,18 @@ describe('PhotoComponent', () => {
     const button = fixture.debugElement.query(By.css('button')).nativeElement
     button.click()
 
-    expect(localStorageService.set).toHaveBeenCalledWith('favorites', [testImage])
+    expect(localStorageService.set).toHaveBeenCalledWith('favorites', [1])
   })
 
   it('should add favorite if not exists', () => {
     component.favorites.set([])
-    component.onFavoriteClick({ id: 123, url: 'url' })
-    expect(component.favorites()).toEqual([{ id: 123, url: 'url' }])
+    component.onFavoriteClick()
+    expect(component.favorites()).toEqual([1])
   })
 
   it('should remove favorite if exists', () => {
-    component.favorites.set([{ id: 123, url: 'url' }])
-    component.onFavoriteClick({ id: 123, url: 'url' })
+    component.favorites.set([1])
+    component.onFavoriteClick()
     expect(component.favorites()).toEqual([])
   })
 })

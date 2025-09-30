@@ -1,6 +1,4 @@
-import { WritableSignal } from '@angular/core'
 import { ComponentFixture, TestBed } from '@angular/core/testing'
-import { ImageItem } from '@app/features/photo/interfaces/image.interface'
 import { LocalStorageService } from '@shared/services/local-storage.service'
 import { FavoritesComponent } from './favorites.component'
 import { PhotoListComponent } from '@shared/components/photo-list/photo-list.component'
@@ -28,37 +26,28 @@ describe('FavoritesComponent', () => {
   })
 
   it('should slice favorites into rows of 5', () => {
-    const favorites: ImageItem[] = [
-      { id: 1, url: 'a' },
-      { id: 2, url: 'b' },
-      { id: 3, url: 'c' },
-      { id: 4, url: 'd' },
-      { id: 5, url: 'e' },
-      { id: 6, url: 'f' }
-    ]
+    const favorites: number[] = [1]
 
-    ;(component.favorites as WritableSignal<ImageItem[]>).set(favorites)
+    component.favorites.set(favorites)
 
     const rows = component.imageRows()
-    expect(rows.length).toBe(2)
-    expect(rows[0].map((i) => i.id)).toEqual([1, 2, 3, 4, 5])
-    expect(rows[1].map((i) => i.id)).toEqual([6])
+    expect(rows.length).toBe(1)
+    expect(rows[0]).toEqual([
+      {
+        id: 1,
+        url: `https://picsum.photos/id/1/300/300`
+      }
+    ])
   })
 
   it('should pass computed imageRows to PhotoListComponent', () => {
-    const favorites: ImageItem[] = [
-      { id: 1, url: 'a' },
-      { id: 2, url: 'b' },
-      { id: 3, url: 'c' },
-      { id: 4, url: 'd' },
-      { id: 5, url: 'e' }
-    ]
+    const favorites: number[] = [1, 2, 3, 4, 5]
 
-    ;(component.favorites as WritableSignal<ImageItem[]>).set(favorites)
+    component.favorites.set(favorites)
 
     fixture.detectChanges()
 
-    const photoElements = fixture.debugElement.queryAll(By.css('app-photo'))
+    const photoElements = fixture.debugElement.queryAll(By.css('app-photo-card'))
 
     expect(photoElements.length).toEqual(favorites.length)
   })
