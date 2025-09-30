@@ -1,5 +1,12 @@
 import { NgOptimizedImage } from '@angular/common'
-import { Component, inject, input } from '@angular/core'
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  input,
+  WritableSignal
+} from '@angular/core'
 import { ImageItem } from '@features/photo/interfaces/image.interface'
 import { MatIconButton } from '@angular/material/button'
 import { MatIcon } from '@angular/material/icon'
@@ -19,9 +26,9 @@ import { appendOrDelete } from '@app/shared/utils/utils'
         [priority]="image().id <= 10" />
       <div class="image-overlay">
         <span class="image-id">#{{ image().id }}</span>
-        <button matIconButton (click)="onFavoriteClick(image().url)" class="image-favorite">
+        <button matIconButton (click)="onFavoriteClick(image())" class="image-favorite">
           <mat-icon
-            >{{ favorites().includes(image().url) ? 'favorite' : 'favorite_border' }}
+            >{{ favoritesSelected().includes(image().url) ? 'favorite' : 'favorite_border' }}
           </mat-icon>
         </button>
       </div>
@@ -84,17 +91,20 @@ import { appendOrDelete } from '@app/shared/utils/utils'
         color: #ff0000;
       }
     }
-  `
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PhotoComponent {
   image = input.required<ImageItem>()
 
   localStorageService = inject(LocalStorageService)
 
-  favorites = this.localStorageService.signal('favorites')
+  favorites: WritableSignal<ImageItem[]> = this.localStorageService.signal('favorites')
 
-  onFavoriteClick(url: string) {
-    const favorites = appendOrDelete(this.favorites() || [], url)
+  favoritesSelected = computed(() => (this.favorites() || []).map(({ url }) => url))
+
+  onFavoriteClick(item: ImageItem) {
+    const favorites = appendOrDelete(this.favorites() || [], item, ({ id }) => id === item.id)
 
     this.localStorageService.set('favorites', favorites)
   }

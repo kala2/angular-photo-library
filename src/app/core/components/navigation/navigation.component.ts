@@ -18,7 +18,7 @@ import { MatBadge } from '@angular/material/badge'
       <a
         mat-button
         matBadgeSize="large"
-        matBadge="{{ favorites().length > 0 ? favorites().length : '' }}"
+        matBadge="{{ favorites()?.length > 0 ? favorites().length : '' }}"
         routerLink="/favorites"
         routerLinkActive="active-link"
         class="nav-link">

@@ -57,7 +57,7 @@ describe('PhotoComponent', () => {
   })
 
   it('should show favorite icon when image url is in favorites', () => {
-    localStorageService.set('favorites', [testImage.url])
+    localStorageService.set('favorites', [testImage])
     fixture.detectChanges()
 
     const icon = fixture.debugElement.query(By.css('mat-icon')).nativeElement
@@ -68,6 +68,18 @@ describe('PhotoComponent', () => {
     const button = fixture.debugElement.query(By.css('button')).nativeElement
     button.click()
 
-    expect(localStorageService.set).toHaveBeenCalledWith('favorites', [testImage.url])
+    expect(localStorageService.set).toHaveBeenCalledWith('favorites', [testImage])
+  })
+
+  it('should add favorite if not exists', () => {
+    component.favorites.set([])
+    component.onFavoriteClick({ id: 123, url: 'url' })
+    expect(component.favorites()).toEqual([{ id: 123, url: 'url' }])
+  })
+
+  it('should remove favorite if exists', () => {
+    component.favorites.set([{ id: 123, url: 'url' }])
+    component.onFavoriteClick({ id: 123, url: 'url' })
+    expect(component.favorites()).toEqual([])
   })
 })

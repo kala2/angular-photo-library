@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing'
 import { By } from '@angular/platform-browser'
-import { PhotoListComponent } from '@features/photo/components/photo-list/photo-list.component'
+import { PhotoListComponent } from '@shared/components/photo-list/photo-list.component'
 import { PhotosComponent } from './photos.component'
 
 describe('PhotosComponent', () => {

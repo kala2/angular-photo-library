@@ -10,7 +10,7 @@
       }
     </div>
 
-    @if (isLoading()) {
+    @if (isLoading() && hasLoading()) {
       <app-loading></app-loading>
     }
   </cdk-virtual-scroll-viewport>
