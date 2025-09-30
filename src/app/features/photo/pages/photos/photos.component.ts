@@ -1,22 +1,19 @@
-import { Component, computed, inject, signal } from '@angular/core'
+import { Component, computed, signal } from '@angular/core'
 import { PhotoListComponent } from '@shared/components/photo-list/photo-list.component'
-import { ImageService } from '@features/photo/services/image.service'
 import { toSignal } from '@angular/core/rxjs-interop'
 import { BehaviorSubject, throttleTime, switchMap, scan, finalize, of, delay } from 'rxjs'
-import { ImageItem } from '../../interfaces/image.interface'
+import { ImageItem } from '@features/photo/interfaces/image.interface'
 
 @Component({
   selector: 'app-photos',
   imports: [PhotoListComponent],
-  template: `<app-photo-list
+  template: ` <app-photo-list
     [imageRows]="imageRows()"
     [isLoading]="isLoading()"
     hasLoading
     (reachedEndChange)="reachedEndChange()"></app-photo-list>`
 })
 export class PhotosComponent {
-  imageService = inject(ImageService)
-
   private page = signal(0)
   private pageSize = 20
 

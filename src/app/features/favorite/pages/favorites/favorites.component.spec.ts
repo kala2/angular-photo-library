@@ -1,7 +1,6 @@
 import { WritableSignal } from '@angular/core'
 import { ComponentFixture, TestBed } from '@angular/core/testing'
 import { ImageItem } from '@app/features/photo/interfaces/image.interface'
-import { ImageService } from '@app/features/photo/services/image.service'
 import { LocalStorageService } from '@shared/services/local-storage.service'
 import { FavoritesComponent } from './favorites.component'
 import { PhotoListComponent } from '@shared/components/photo-list/photo-list.component'
@@ -15,7 +14,7 @@ describe('FavoritesComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [FavoritesComponent, PhotoListComponent],
-      providers: [LocalStorageService, ImageService, provideRouter([])]
+      providers: [LocalStorageService, provideRouter([])]
     }).compileComponents()
 
     fixture = TestBed.createComponent(FavoritesComponent)
