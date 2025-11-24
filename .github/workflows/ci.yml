@@ -26,8 +26,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 22
-          cache: 'npm'
-          cache-dependency-path: package-lock.json
+          cache: 'yarn'
+          cache-dependency-path: yarn.lock
 
       - name: Lint commit messages
         uses: wagoid/commitlint-github-action@v6
@@ -35,16 +35,16 @@ jobs:
           configFile: commitlint.config.mjs
 
       - name: Install dependencies
-        run: npm ci
+        run: yarn install --frozen-lockfile
 
       - name: Run Angular lint
-        run: npm run lint
+        run: yarn lint
 
       - name: Run Angular test
-        run: npm run test
+        run: yarn test
 
       - name: Run Angular build
-        run: npm run build
+        run: yarn build
 
       - name: Release
         if: github.ref == 'refs/heads/main'
