@@ -60,5 +60,5 @@ import { MatBadge } from '@angular/material/badge'
 export class NavigationComponent {
   localStorageService = inject(LocalStorageService)
 
-  favorites = this.localStorageService.signal<number[]>('favorites')
+  favorites = this.localStorageService.signal<number[]>('favorites', [])
 }
